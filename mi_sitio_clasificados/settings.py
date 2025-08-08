@@ -1,4 +1,5 @@
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,47 +25,6 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    # tu middleware original
-]
-
-ROOT_URLCONF = 'mi_sitio_clasificados.urls'
-
-TEMPLATES = [
-    # tu configuración original
-]
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
-# ... toda tu configuración original de Django ...
-
-# AL FINAL DEL ARCHIVO:
-import os
-
-# Railway configuration
-if os.environ.get('RAILWAY_ENVIRONMENT'):
-    DEBUG = False
-    ALLOWED_HOSTS = ['*.railway.app', '127.0.0.1', 'localhost']
-    
-    SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-fallback-key-123')
-    
-    import dj_database_url
-    database_url = os.environ.get('DATABASE_URL')
-    if database_url:
-        DATABASES = {
-            'default': dj_database_url.parse(database_url)
-        }
-    
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-    STATIC_URL = '/static/'
-    
-    
-    # Middleware
-MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -74,7 +34,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# Templates
+ROOT_URLCONF = 'mi_sitio_clasificados.urls'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -90,6 +51,15 @@ TEMPLATES = [
         },
     },
 ]
+
+WSGI_APPLICATION = 'mi_sitio_clasificados.wsgi.application'
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 # Internationalization
 LANGUAGE_CODE = 'es'
@@ -109,3 +79,19 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Site ID
 SITE_ID = 1
+
+# Railway configuration
+if os.environ.get('RAILWAY_ENVIRONMENT'):
+    DEBUG = False
+    ALLOWED_HOSTS = ['*.railway.app', 'web-production-de627.up.railway.app', '127.0.0.1']
+    
+    SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-fallback-key-123')
+    
+    import dj_database_url
+    database_url = os.environ.get('DATABASE_URL')
+    if database_url:
+        DATABASES = {
+            'default': dj_database_url.parse(database_url)
+        }
+    
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
