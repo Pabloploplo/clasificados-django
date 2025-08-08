@@ -15,14 +15,6 @@ if os.environ.get('RAILWAY_ENVIRONMENT'):
         DATABASES = {
             'default': dj_database_url.parse(database_url)
         }
-    else:
-        # Fallback para desarrollo
-        DATABASES = {
-            'default': {
-                'ENGINE': 'django.db.backends.sqlite3',
-                'NAME': BASE_DIR / 'db.sqlite3',
-            }
-        }
     
     # Static files
     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
