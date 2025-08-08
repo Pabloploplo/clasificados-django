@@ -1,5 +1,18 @@
-from pathlib import Path
 import os
+import sys
+
+# Ejecutar migraciones automáticamente en Railway
+if os.environ.get('RAILWAY_ENVIRONMENT'):
+    if 'migrate' not in sys.argv and 'runserver' in sys.argv:
+        import subprocess
+        try:
+            result = subprocess.run(['python', 'manage.py', 'migrate'], 
+                                  capture_output=True, text=True, cwd='/app')
+            print("Migraciones ejecutadas:", result.stdout)
+        except Exception as e:
+            print("Error ejecutando migraciones:", e)
+
+from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
