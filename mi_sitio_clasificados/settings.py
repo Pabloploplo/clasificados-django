@@ -23,16 +23,16 @@ if os.environ.get('RAILWAY_ENVIRONMENT'):
     
     from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+    # Build paths inside the project like this: BASE_DIR / 'subdir'.
+    BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-...'
-# ... resto de tu configuración original
+    # SECURITY WARNING: keep the secret key used in production secret!
+    SECRET_KEY = 'django-insecure-...'
+    # ... resto de tu configuración original
 
-# ... toda tu configuración original ...
+    # ... toda tu configuración original ...
 
-# Railway configuration (AL FINAL)
-import os
-if os.environ.get('RAILWAY_ENVIRONMENT'):
-    # ... el código que cortaste
+    # Railway configuration (AL FINAL)
+    import os
+    if os.environ.get('RAILWAY_ENVIRONMENT'):
+        # ... el código que cortaste
