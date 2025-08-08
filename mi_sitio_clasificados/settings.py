@@ -20,3 +20,19 @@ if os.environ.get('RAILWAY_ENVIRONMENT'):
     # Static files
     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
     STATIC_URL = '/static/'
+    
+    from pathlib import Path
+
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = 'django-insecure-...'
+# ... resto de tu configuración original
+
+# ... toda tu configuración original ...
+
+# Railway configuration (AL FINAL)
+import os
+if os.environ.get('RAILWAY_ENVIRONMENT'):
+    # ... el código que cortaste
