@@ -1,1 +1,1 @@
-web: gunicorn mi_sitio_clasificados.wsgi --log-file -
+web: python -m gunicorn mi_sitio_clasificados.wsgi:application --bind 0.0.0.0:$PORT

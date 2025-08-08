@@ -55,6 +55,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # ← AGREGAR ESTA LÍNEA
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -167,9 +168,9 @@ import cloudinary.api
 if 'RAILWAY_ENVIRONMENT' in os.environ:
     # Producción
     cloudinary.config(
-        cloud_name=os.environ.get('CLOUDINARY_CLOUD_NAME'),
-        api_key=os.environ.get('CLOUDINARY_API_KEY'),
-        api_secret=os.environ.get('CLOUDINARY_API_SECRET'),
+        cloud_name=os.environ.get('dprm2vju5'),
+        api_key=os.environ.get('352832738313335'),
+        api_secret=os.environ.get('j5hwxitBFzGIQeoWmMBfmDSRnjg'),
     )
     DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 else:
