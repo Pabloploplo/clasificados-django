@@ -4,6 +4,7 @@ import os
 if os.environ.get('RAILWAY_ENVIRONMENT'):
     DEBUG = False
     ALLOWED_HOSTS = ['*.railway.app', '127.0.0.1', 'localhost']
+    # ... resto del código
     
     # Secret key
     SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-fallback-key-123')
