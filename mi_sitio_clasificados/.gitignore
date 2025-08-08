@@ -1,0 +1,17 @@
+# Django
+*.pyc
+__pycache__/
+db.sqlite3
+media/
+.env
+*.log
+
+# Virtual environment
+mi_clasificados_env/
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db

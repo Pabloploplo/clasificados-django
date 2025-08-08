@@ -1,0 +1,14 @@
+from django import forms
+from .models import Anuncio, Categoria
+
+class AnuncioForm(forms.ModelForm):
+    class Meta:
+        model = Anuncio
+        fields = [
+            'titulo', 'descripcion', 'categoria', 'tipo', 'estado',
+            'precio', 'precio_negociable', 'nombre_contacto', 
+            'telefono', 'email_contacto', 'ciudad', 'direccion', 'imagen'
+        ]
+
+class BusquedaForm(forms.Form):
+    q = forms.CharField(max_length=200, required=False)

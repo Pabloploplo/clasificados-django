@@ -1,0 +1,1 @@
+web: gunicorn mi_sitio_clasificados.wsgi --log-file -

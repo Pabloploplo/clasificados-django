@@ -1,0 +1,309 @@
+{% extends 'clasificados/base.html' %}
+
+{% block title %}
+    {% if editando %}Editar anuncio{% else %}Publicar anuncio{% endif %} - Clasificados Online
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">
+                    <i class="bi bi-plus-circle"></i>
+                    {% if editando %}
+                        Editar anuncio
+                    {% else %}
+                        Publicar nuevo anuncio
+                    {% endif %}
+                </h4>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <!-- Información básica -->
+                    <h5 class="mb-3">
+                        <i class="bi bi-info-circle"></i> Información básica
+                    </h5>
+                    
+                    <div class="row">
+                        <div class="col-12 mb-3">
+                            <label for="{{ form.titulo.id_for_label }}" class="form-label">
+                                {{ form.titulo.label }} <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" name="titulo" class="form-control" placeholder="Título de tu anuncio" required>
+                            {% if form.titulo.errors %}
+                                <div class="text-danger">
+                                    {% for error in form.titulo.errors %}
+                                        <small>{{ error }}</small>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-12 mb-3">
+                            <label for="{{ form.descripcion.id_for_label }}" class="form-label">
+                                {{ form.descripcion.label }} <span class="text-danger">*</span>
+                            </label>
+                            <textarea name="descripcion" class="form-control" rows="4" placeholder="Describe tu producto..." required></textarea>
+                            {% if form.descripcion.errors %}
+                                <div class="text-danger">
+                                    {% for error in form.descripcion.errors %}
+                                        <small>{{ error }}</small>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.categoria.id_for_label }}" class="form-label">
+                                {{ form.categoria.label }} <span class="text-danger">*</span>
+                            </label>
+                            <select name="categoria" class="form-control" required>
+                                <option value="">Selecciona categoría</option>
+                                {% for categoria in categorias %}
+                                    <option value="{{ categoria.id }}">{{ categoria.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                            {% if form.categoria.errors %}
+                                <div class="text-danger">
+                                    {% for error in form.categoria.errors %}
+                                        <small>{{ error }}</small>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.tipo.id_for_label }}" class="form-label">
+                                {{ form.tipo.label }}
+                            </label>
+                            <select name="tipo" class="form-control">
+                                <option value="venta">Venta</option>
+                                <option value="compra">Compra</option>
+                                <option value="alquiler">Alquiler</option>
+                                <option value="intercambio">Intercambio</option>
+                                <option value="servicio">Servicio</option>
+                            </select>
+                            {% if form.tipo.errors %}
+                                <div class="text-danger">
+                                    {% for error in form.tipo.errors %}
+                                        <small>{{ error }}</small>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.estado.id_for_label }}" class="form-label">
+                                {{ form.estado.label }}
+                            </label>
+                            <select name="estado" class="form-control">
+                                <option value="nuevo">Nuevo</option>
+                                <option value="usado">Usado</option>
+                                <option value="reacondicionado">Reacondicionado</option>
+                            </select>
+                            {% if form.estado.errors %}
+                                <div class="text-danger">
+                                    {% for error in form.estado.errors %}
+                                        <small>{{ error }}</small>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <hr>
+                    
+                    <!-- Precio -->
+                    <h5 class="mb-3">
+                        <i class="bi bi-currency-dollar"></i> Precio
+                    </h5>
+                    
+                    <div class="row">
+                        <div class="col-md-8 mb-3">
+                            <label for="{{ form.precio.id_for_label }}" class="form-label">
+                                {{ form.precio.label }}
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" name="precio" class="form-control" placeholder="0.00" step="0.01">
+                            </div>
+                            <small class="text-muted">Deja en blanco si prefieres "Consultar precio"</small>
+                            {% if form.precio.errors %}
+                                <div class="text-danger">
+                                    {% for error in form.precio.errors %}
+                                        <small>{{ error }}</small>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">&nbsp;</label>
+                            <div class="form-check">
+                                <input type="checkbox" name="precio_negociable" class="form-check-input">
+                                <label class="form-check-label" for="{{ form.precio_negociable.id_for_label }}">
+                                    {{ form.precio_negociable.label }}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <hr>
+                    
+                    <!-- Información de contacto -->
+                    <h5 class="mb-3">
+                        <i class="bi bi-person-lines-fill"></i> Información de contacto
+                    </h5>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.nombre_contacto.id_for_label }}" class="form-label">
+                                {{ form.nombre_contacto.label }}
+                            </label>
+                            <input type="text" name="nombre_contacto" class="form-control" placeholder="Tu nombre">
+                            {% if form.nombre_contacto.errors %}
+                                <div class="text-danger">
+                                    {% for error in form.nombre_contacto.errors %}
+                                        <small>{{ error }}</small>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.telefono.id_for_label }}" class="form-label">
+                                {{ form.telefono.label }}
+                            </label>
+                            <input type="text" name="telefono" class="form-control" placeholder="+56 9 1234 5678">
+                            {% if form.telefono.errors %}
+                                <div class="text-danger">
+                                    {% for error in form.telefono.errors %}
+                                        <small>{{ error }}</small>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-12 mb-3">
+                            <label for="{{ form.email_contacto.id_for_label }}" class="form-label">
+                                {{ form.email_contacto.label }}
+                            </label>
+                            <input type="email" name="email_contacto" class="form-control" placeholder="tu@email.com">
+                            {% if form.email_contacto.errors %}
+                                <div class="text-danger">
+                                    {% for error in form.email_contacto.errors %}
+                                        <small>{{ error }}</small>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <hr>
+                    
+                    <!-- Ubicación -->
+                    <h5 class="mb-3">
+                        <i class="bi bi-geo-alt"></i> Ubicación
+                    </h5>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.ciudad.id_for_label }}" class="form-label">
+                                {{ form.ciudad.label }} <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" name="ciudad" class="form-control" placeholder="Tu ciudad" required>
+                            {% if form.ciudad.errors %}
+                                <div class="text-danger">
+                                    {% for error in form.ciudad.errors %}
+                                        <small>{{ error }}</small>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.direccion.id_for_label }}" class="form-label">
+                                {{ form.direccion.label }}
+                            </label>
+                            <input type="text" name="direccion" class="form-control" placeholder="Dirección (opcional)">
+                            <small class="text-muted">Opcional - Solo si es relevante</small>
+                            {% if form.direccion.errors %}
+                                <div class="text-danger">
+                                    {% for error in form.direccion.errors %}
+                                        <small>{{ error }}</small>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <hr>
+                    
+                    <!-- Imagen -->
+                    <h5 class="mb-3">
+                        <i class="bi bi-image"></i> Imagen principal
+                    </h5>
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.imagen.id_for_label }}" class="form-label">
+                            {{ form.imagen.label }}
+                        </label>
+                        <input type="file" name="imagen" class="form-control" accept="image/*">
+                        <small class="text-muted">Formatos permitidos: JPG, PNG. Tamaño máximo: 5MB</small>
+                        {% if form.imagen.errors %}
+                            <div class="text-danger">
+                                {% for error in form.imagen.errors %}
+                                    <small>{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        
+                        {% if editando and anuncio.imagen %}
+                            <div class="mt-2">
+                                <small class="text-muted">Imagen actual:</small><br>
+                                <img src="{{ anuncio.imagen.url }}" alt="Imagen actual" class="img-thumbnail" style="max-width: 200px;">
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Botones -->
+                    <div class="d-flex justify-content-between">
+                        <a href="{% if editando %}{% url 'detalle_anuncio' anuncio.pk %}{% else %}{% url 'home' %}{% endif %}" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left"></i> Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-check-circle"></i>
+                            {% if editando %}
+                                Actualizar anuncio
+                            {% else %}
+                                Publicar anuncio
+                            {% endif %}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Consejos -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-lightbulb"></i> Consejos para un buen anuncio
+                </h5>
+            </div>
+            <div class="card-body">
+                <ul class="mb-0">
+                    <li>Usa un título claro y descriptivo</li>
+                    <li>Incluye detalles importantes en la descripción</li>
+                    <li>Sube una foto de buena calidad</li>
+                    <li>Indica el precio real o marca como negociable</li>
+                    <li>Proporciona información de contacto verificable</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
