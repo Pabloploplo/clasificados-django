@@ -108,3 +108,4 @@ if os.environ.get('RAILWAY_ENVIRONMENT'):
         }
     
     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    
