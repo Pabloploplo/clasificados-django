@@ -4,18 +4,6 @@ import sys
 # Ejecutar migraciones automáticamente en Railway
 if os.environ.get('RAILWAY_ENVIRONMENT'):
     
-    # Crear superusuario automáticamente
-    import django
-    from django.contrib.auth import get_user_model
-    
-    try:
-        django.setup()
-        User = get_user_model()
-        if not User.objects.filter(username='admin').exists():
-            User.objects.create_superuser('admin', 'admin@admin.com', 'admin123')
-            print("Superusuario creado: admin / admin123")
-    except:
-        pass
     
     if 'migrate' not in sys.argv and 'runserver' in sys.argv:
         import subprocess
