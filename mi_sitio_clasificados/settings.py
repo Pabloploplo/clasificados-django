@@ -100,6 +100,12 @@ if os.environ.get('RAILWAY_ENVIRONMENT'):
     DEBUG = False
     ALLOWED_HOSTS = ['*.railway.app', 'web-production-de627.up.railway.app', '127.0.0.1']
     
+    # Configuración CSRF
+    CSRF_TRUSTED_ORIGINS = [
+        'https://web-production-de627.up.railway.app',
+        'https://*.railway.app',
+    ]
+    
     SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-fallback-key-123')
     
     import dj_database_url
