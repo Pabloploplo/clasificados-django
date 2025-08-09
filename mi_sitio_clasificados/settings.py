@@ -117,6 +117,13 @@ if os.environ.get('RAILWAY_ENVIRONMENT'):
     
     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
     STATIC_URL = '/static/'
+    STATICFILES_DIRS = []
     
     # Agregar esta línea para servir archivos estáticos
     STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+    
+    # Servir archivos estáticos en production
+if not DEBUG:
+    import os
+    from django.core.wsgi import get_wsgi_application
+    from django.contrib.staticfiles.handlers import StaticFilesHandler
