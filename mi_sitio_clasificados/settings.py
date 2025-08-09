@@ -116,4 +116,7 @@ if os.environ.get('RAILWAY_ENVIRONMENT'):
         }
     
     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    STATIC_URL = '/static/'
     
+    # Agregar esta línea para servir archivos estáticos
+    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
